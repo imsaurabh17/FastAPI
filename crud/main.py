@@ -38,3 +38,16 @@ def get_specific_student(id: int):
                 return student
             
     raise HTTPException(status_code=404,detail="Student not found")
+
+@app.put("/update_student", response_model=Student)
+def update_student(id:int, updated_data: Student):
+    for student in Student_db:
+        if student["id"] == id:
+            student["name"] = updated_data.name
+            student["email"] = updated_data.email
+            student["age"] = updated_data.age
+            student["branch"] = updated_data.branch
+
+        return student
+
+    raise HTTPException(status_code=404,detail="Student not found")
