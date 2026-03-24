@@ -24,3 +24,7 @@ def add_student(student: Student):
     Student_db.append(student_data)
 
     return student_data
+
+@app.get("/get_students",response_model=List[Student])
+def get_students():
+    return Student_db
