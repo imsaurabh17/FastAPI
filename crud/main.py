@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from crud.models import Student
 from typing import List
 from itertools import count
@@ -28,3 +28,13 @@ def add_student(student: Student):
 @app.get("/get_students",response_model=List[Student])
 def get_students():
     return Student_db
+
+@app.get("/get_specific_student",response_model=Student)
+def get_specific_student(id: int):
+
+    if id not in Student_db:
+        for index, student in enumerate(Student_db):
+            if student["id"] == id:
+                return student
+            
+    raise HTTPException(status_code=404,detail="Student not found")
